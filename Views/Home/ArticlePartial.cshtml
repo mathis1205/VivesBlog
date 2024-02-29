@@ -1,0 +1,12 @@
+﻿@model Article
+
+<article>
+    <header class="mb-4">
+        <h1 class="fw-bolder mb-1">@Model.Title</h1>
+        <div class="text-muted fst-italic mb-2">Posted on @Model.PublishedDate.ToLongDateString() by @Model.Author</div>
+    </header>
+             
+    <section class="mb-5">
+        <p class="fs-5 mb-4">@Model.Description</p>
+    </section>
+</article>

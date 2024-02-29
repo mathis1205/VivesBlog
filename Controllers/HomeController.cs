@@ -1,31 +1,30 @@
-using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using VivesBlog.Models;
+using System.Diagnostics;
+using VivesBlog.Ui.Mvc.Core;
+using VivesBlog.Ui.Mvc.Models;
 
-namespace VivesBlog.Controllers;
-
-public class HomeController : Controller
+namespace VivesBlog.Ui.Mvc.Controllers
 {
-    private readonly ILogger<HomeController> _logger;
-
-    public HomeController(ILogger<HomeController> logger)
+    public class HomeController : Controller
     {
-        _logger = logger;
-    }
+        private readonly VivesBlogDbContext _vivesBlogDbContext;
 
-    public IActionResult Index()
-    {
-        return View();
-    }
+        public HomeController(VivesBlogDbContext vivesBlogDbContext)
+        {
+            _vivesBlogDbContext = vivesBlogDbContext;
+        }
 
-    public IActionResult About()
-    {
-        return View();
-    }
+        public IActionResult Index()
+        {
+            var articles = _vivesBlogDbContext.Articles.ToList();
+            return View(articles);
+        }
 
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
-    {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
     }
 }

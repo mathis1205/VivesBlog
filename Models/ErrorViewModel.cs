@@ -1,4 +1,4 @@
-namespace VivesBlog.Models
+namespace VivesBlog.Ui.Mvc.Models
 {
     public class ErrorViewModel
     {
