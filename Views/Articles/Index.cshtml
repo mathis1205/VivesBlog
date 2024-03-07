@@ -4,14 +4,15 @@
     ViewData["Title"] = "Articles";
 }
 
+<a asp-action="Create" class="btn btn-primary">Create new article</a>
 <h1>Articles table</h1>
-
-<table class="table table-info table-striped">
+<table id="edit" class="table table-info table-striped">
     <thead>
     <tr>
         <th>Date</th>
         <th>Author</th>
         <th>Title</th>
+        <th>Actions</th>
     </tr>
     </thead>
     <tbody>
@@ -21,3 +22,14 @@
     }
     </tbody>
 </table>
+
+<script>
+    window.onload = function () {
+        var table = document.getElementById("edit");
+        for (var i = 0; i < table.rows.length; i++) {
+            table.rows[i].onclick = function () {
+                window.location.href = this.getAttribute("data-edit-url");
+            };
+        }
+    };
+</script>
