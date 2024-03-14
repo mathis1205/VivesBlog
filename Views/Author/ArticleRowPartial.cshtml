@@ -1,4 +1,4 @@
-﻿@model Article
+﻿@* @model Article
 
 <tr data-edit-url="@Url.Action("Edit", new { id = Model.Id })">
     <td>@Model.PublishedDate.ToShortDateString() @Model.PublishedDate.ToShortTimeString()</td>
@@ -7,7 +7,6 @@
     <td>
         <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
         <a class="btn btn-danger" asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
-        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="@Model.Id" data-mode="delete">Delete with model</button>
     </td>
 </tr>
-<tr></tr>
+ *@

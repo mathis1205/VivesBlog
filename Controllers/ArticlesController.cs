@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using VivesBlog.Ui.Mvc.Core;
 using VivesBlog.Ui.Mvc.Models;
 
@@ -49,12 +50,29 @@ namespace VivesBlog.Ui.Mvc.Controllers
             return RedirectToAction("Index");
         }
 
-        public IActionResult Delete(int id)
+        [HttpGet]
+        public IActionResult Delete([FromRoute] int id)
         {
-            var person = _vivesBlogDbContext.Articles.FirstOrDefault(p => p.Id == id);
-            if (person == null) return RedirectToAction("Index");
+            var person = _vivesBlogDbContext.Articles
+                .FirstOrDefault(p => p.Id == id);
+
+            return View(person);
+        }
+
+        [HttpPost("/[controller]/Delete/{id:int?}"), ValidateAntiForgeryToken]
+        public IActionResult DeleteConfirmed(int id)
+        {
+            var person = _vivesBlogDbContext.Articles
+                .FirstOrDefault(p => p.Id == id);
+
+            if (person is null)
+            {
+                return RedirectToAction("Index");
+            }
+
             _vivesBlogDbContext.Articles.Remove(person);
             _vivesBlogDbContext.SaveChanges();
+
             return RedirectToAction("Index");
         }
     }

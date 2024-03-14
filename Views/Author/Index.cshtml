@@ -1,0 +1,70 @@
+﻿@model IList<Article>
+
+@{
+    ViewData["Title"] = "Author";
+}
+
+<a asp-action="Create" class="btn btn-primary">Create new article</a>
+<h1>Articles table</h1>
+<table id="edit" class="table table-info table-striped">
+    <thead>
+    <tr>
+        <th>Date</th>
+        <th>Author</th>
+        <th>Title</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var article in Model)
+    {
+        <partial name="ArticleRowPartial" model="article"/>
+    }
+    </tbody>
+</table>
+
+@section Modals
+{
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Delete</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete article <strong></strong>?</p>
+                </div>
+                <div class="modal-footer">
+                    <form asp-action="DeleteConfirmed" method="post">
+                        <input type="hidden" name="Id"/>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                        <button type="submit" class="btn btn-primary">Yes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts
+{
+    <script>
+        $("button[data-mode='delete']").on("click", function (event) {
+            event.stopPropagation();
+            let id = $(this).data("id");
+            let title = $(this).data("title");
+            $("#deleteModal input[name='Id']").val(id);
+            $("#deleteModal .modal-body strong").html(title);
+        });
+
+        window.onload = function () {
+            var table = document.getElementById("edit");
+            for (var i = 0; i < table.rows.length; i++) {
+                table.rows[i].onclick = function () {
+                    window.location.href = this.getAttribute("data-edit-url");
+                };
+            }
+        };
+    </script>
+}
